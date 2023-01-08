@@ -1,4 +1,5 @@
 ﻿using Companio.Data;
+using Companio.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -30,6 +31,8 @@ public class Startup
         {
             x.SwaggerDoc("v1", new OpenApiInfo { Title = "Companio REST API", Version = "v1"});
         });
+
+        services.AddSingleton<IProjectService, ProjectService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
