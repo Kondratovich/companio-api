@@ -1,6 +1,8 @@
 ﻿using Companio.AutoMapper;
+using Companio.Models;
 using Companio.Mongo;
 using Companio.Services;
+using Companio.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 
 namespace Companio;
@@ -30,7 +32,9 @@ public class Startup
             x.SwaggerDoc("v1", new OpenApiInfo { Title = "Companio REST API", Version = "v1"});
         });
 
+        services.AddSingleton<MongoContext>();
         services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<ITeamService, TeamService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

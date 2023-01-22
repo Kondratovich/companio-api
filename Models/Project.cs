@@ -2,9 +2,8 @@
 
 namespace Companio.Models;
 
-public class Project
+public class Project : DatabaseObject
 {
-    public ObjectId Id { get; set; }
     public ObjectId CustomerId { get; set; }
     public ObjectId TeamId { get; set; }
     public string Name { get; set; }

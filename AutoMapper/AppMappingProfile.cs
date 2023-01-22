@@ -15,10 +15,12 @@ public class AppMappingProfile : Profile
     private void ConfigureFromDomainToDto()
     {
         CreateMap<Project, ProjectReadDTO>();
+        CreateMap<Team, TeamReadDTO>();
     }
 
     private void ConfigureFromDtoToDomain()
     {
         CreateMap<ProjectDTO, Project>();
+        CreateMap<TeamDTO, Team>();
     }
 }

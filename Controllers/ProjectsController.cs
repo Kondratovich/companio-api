@@ -2,6 +2,7 @@ using AutoMapper;
 using Companio.DTO;
 using Companio.Models;
 using Companio.Services;
+using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -29,7 +30,10 @@ public class ProjectsController : Controller
     [HttpGet("api/v1/projects/{id}")]
     public ActionResult<ProjectReadDTO> Get(string id)
     {
-        var project = _projectService.GetById(ObjectId.Parse(id));
+        if (!ObjectId.TryParse(id, out var objectId))
+            return ValidationProblem();
+
+        var project = _projectService.SingleByIdOrDefault(objectId);
 
         if (project == null)
             return NotFound();
@@ -52,13 +56,30 @@ public class ProjectsController : Controller
         return Created(locationUri, projectReadDto);
     }
 
+    [HttpPut("api/v1/projects/{id}")]
+    public ActionResult Put(string id, ProjectDTO projectDto)
+    {
+        if (!ObjectId.TryParse(id, out var objectId))
+            return ValidationProblem();
+
+        var project = _projectService.SingleByIdOrDefault(objectId);
+        if (project == null)
+            return NotFound();
+ 
+        _mapper.Map(projectDto, project);
+        _projectService.Update(project);
+        var outputDto = _mapper.Map<ProjectReadDTO>(project);
+
+        return Ok(outputDto);
+    }
+
     [HttpDelete("api/v1/projects/{id}")]
     public ActionResult Delete(string id)
     {
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
 
-        var project = _projectService.GetById(objectId);
+        var project = _projectService.SingleByIdOrDefault(objectId);
         if (project == null)
             return NotFound();
 
