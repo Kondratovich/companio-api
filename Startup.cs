@@ -1,7 +1,6 @@
-﻿using Companio.Data;
+﻿using Companio.AutoMapper;
+using Companio.Mongo;
 using Companio.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace Companio;
@@ -18,13 +17,12 @@ public class Startup
     // Add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        var connectionString = Configuration.GetConnectionString("DefaultConnection");
-        services.AddDbContext<DataContext>(options =>
-            options.UseSqlite(connectionString));
-        services.AddDatabaseDeveloperPageExceptionFilter();
+        services.Configure<MongoSettings>(Configuration.GetSection("MongoSettings"));
+        services.AddSingleton<MongoContext>();
+        
+        services.AddAutoMapper(typeof(AppMappingProfile));
 
-        services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            .AddEntityFrameworkStores<DataContext>();
+        services.AddRazorPages();
         services.AddControllersWithViews();
 
         services.AddSwaggerGen(x => 
@@ -32,7 +30,7 @@ public class Startup
             x.SwaggerDoc("v1", new OpenApiInfo { Title = "Companio REST API", Version = "v1"});
         });
 
-        services.AddSingleton<IProjectService, ProjectService>();
+        services.AddScoped<IProjectService, ProjectService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -40,7 +38,7 @@ public class Startup
         // Configure the HTTP request pipeline.
         if (env.IsDevelopment())
         {
-            app.UseMigrationsEndPoint();
+            app.UseDeveloperExceptionPage();
         }
         else
         {
@@ -52,14 +50,11 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI(c =>
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Companio REST API v1"));
-        
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
