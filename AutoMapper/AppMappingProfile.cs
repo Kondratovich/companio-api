@@ -16,11 +16,13 @@ public class AppMappingProfile : Profile
     {
         CreateMap<Project, ProjectReadDTO>();
         CreateMap<Team, TeamReadDTO>();
+        CreateMap<Customer, CustomerReadDTO>();
     }
 
     private void ConfigureFromDtoToDomain()
     {
         CreateMap<ProjectDTO, Project>();
         CreateMap<TeamDTO, Team>();
+        CreateMap<CustomerDTO, Customer>();
     }
 }

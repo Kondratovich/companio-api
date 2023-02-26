@@ -3,11 +3,13 @@ using Companio.DTO;
 using Companio.Models;
 using Companio.Services;
 using Companio.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
+[Authorize]
 public class TeamsController : Controller
 {
     private readonly IMapper _mapper;
