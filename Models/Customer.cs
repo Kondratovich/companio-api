@@ -2,10 +2,8 @@
 
 namespace Companio.Models;
 
-public class Customer
+public class Customer : DatabaseObject
 {
-    public ObjectId Id { get; set; }
-
     public string EmailAddress { get; set; }
 
     public string FirstName { get; set; }
