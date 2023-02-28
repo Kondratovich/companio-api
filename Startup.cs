@@ -100,10 +100,11 @@ public class Startup
         });
 
         services.AddSingleton<MongoContext>();
-        services.AddScoped<IProjectService, ProjectService>();
-        services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<ITeamService, TeamService>();
+        services.AddScoped<ICustomerService, CustomerService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

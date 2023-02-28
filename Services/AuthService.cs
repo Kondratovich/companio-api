@@ -18,7 +18,7 @@ public class AuthService : IAuthService
 
     public User AuthenticateUser(UserDTO userDto)
     {
-        var user = _context.GetAll<User>().SingleOrDefault(u => u.EmailAddress == userDto.Email && u.PasswordHash == userDto.Password);
+        var user = _context.GetAll<User>().SingleOrDefault(u => u.Email == userDto.Email && u.PasswordHash == userDto.Password);
 
         return user;
     }
@@ -28,7 +28,7 @@ public class AuthService : IAuthService
         var user = new User
         {
             Id = ObjectId.GenerateNewId(),
-            EmailAddress = email,
+            Email = email,
             PasswordHash = password,
             Role = role
         };
@@ -40,6 +40,6 @@ public class AuthService : IAuthService
 
     public bool IsEmailAvailable(string email)
     {
-        return _context.GetAll<User>().All(u => u.EmailAddress != email);
+        return _context.GetAll<User>().All(u => u.Email != email);
     }
 }

@@ -3,11 +3,9 @@ using MongoDB.Bson;
 
 namespace Companio.Models;
 
-public class User
+public class User : DatabaseObject
 {
-    public ObjectId Id { get; set; }
-
-    public string EmailAddress { get; set; }
+    public string Email { get; set; }
 
     public string FirstName { get; set; }
 

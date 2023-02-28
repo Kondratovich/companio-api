@@ -1,9 +1,15 @@
-﻿namespace Companio.DTO;
+﻿using Companio.Validation;
+
+namespace Companio.DTO;
 
 public class ProjectDTO
 {
     public string Name { get; set; }
     public string Description { get; set; }
+    [ObjectId]
+    public string CustomerId { get; set; }
+    [ObjectId]
+    public string TeamId { get; set; }
 }
 
 public class ProjectReadDTO : ProjectDTO

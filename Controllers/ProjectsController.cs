@@ -45,6 +45,11 @@ public class ProjectsController : Controller
     [HttpPost("api/v1/projects")]
     public ActionResult<ProjectReadDTO> Create(ProjectDTO projectDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
         var project = _mapper.Map<Project>(projectDto);
         var createdProject = _projectService.Create(project);
         var projectReadDto = _mapper.Map<ProjectReadDTO>(createdProject);
