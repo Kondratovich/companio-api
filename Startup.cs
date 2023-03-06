@@ -99,6 +99,15 @@ public class Startup
             });
         });
 
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+                });
+        });
+
         services.AddSingleton<MongoContext>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
@@ -129,6 +138,7 @@ public class Startup
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseCors();
 
         app.UseAuthentication();
         app.UseAuthorization();
