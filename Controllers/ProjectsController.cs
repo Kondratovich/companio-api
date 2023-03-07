@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Companio.DTO;
 using Companio.Models;
@@ -80,6 +81,8 @@ public class ProjectsController : Controller
     [HttpDelete("api/v1/projects/{id}")]
     public ActionResult Delete(string id)
     {
+        throw new ValidationException("HAHAHA");
+
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
 
