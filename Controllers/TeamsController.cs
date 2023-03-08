@@ -46,20 +46,20 @@ public class TeamsController : Controller
     }
 
     [HttpPost("api/v1/teams")]
-    public ActionResult<TeamReadDTO> Create(TeamDTO teamDto)
+    public ActionResult<TeamReadDTO> Create([FromBody] TeamDTO teamDto)
     {
         var team = _mapper.Map<Team>(teamDto);
         var createdTeam = _teamService.Create(team);
         var teamReadDto = _mapper.Map<TeamReadDTO>(createdTeam);
 
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUri = baseUrl + $"/api/v1/teams/{team.Id}"; 
+        var locationUri = baseUrl + $"/api/v1/teams/{team.Id}";
 
         return Created(locationUri, teamReadDto);
     }
 
     [HttpPut("api/v1/teams/{id}")]
-    public ActionResult Put(string id, TeamDTO teamDto)
+    public ActionResult Put(string id, [FromBody] TeamDTO teamDto)
     {
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
@@ -67,7 +67,7 @@ public class TeamsController : Controller
         var team = _teamService.SingleByIdOrDefault(objectId);
         if (team == null)
             return NotFound();
- 
+
         _mapper.Map(teamDto, team);
         _teamService.Update(team);
         var outputDto = _mapper.Map<TeamReadDTO>(team);

@@ -18,6 +18,7 @@ public class AppMappingProfile : Profile
         CreateMap<Project, ProjectReadDTO>();
         CreateMap<Team, TeamReadDTO>();
         CreateMap<Customer, CustomerReadDTO>();
+        CreateMap<User, UserReadDTO>();
     }
 
     private void ConfigureFromDtoToDomain()
@@ -27,5 +28,6 @@ public class AppMappingProfile : Profile
             .ForMember(dest => dest.TeamId, act => act.MapFrom(src => ObjectId.Parse(src.TeamId)));
         CreateMap<TeamDTO, Team>();
         CreateMap<CustomerDTO, Customer>();
+        CreateMap<UserDTO, User>();
     }
 }

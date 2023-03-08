@@ -4,7 +4,7 @@ namespace Companio.Models;
 
 public class Customer : DatabaseObject
 {
-    public string EmailAddress { get; set; }
+    public string Email { get; set; }
 
     public string FirstName { get; set; }
 

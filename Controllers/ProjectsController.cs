@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Companio.DTO;
 using Companio.Models;
@@ -44,7 +43,7 @@ public class ProjectsController : Controller
     }
 
     [HttpPost("api/v1/projects")]
-    public ActionResult<ProjectReadDTO> Create(ProjectDTO projectDto)
+    public ActionResult<ProjectReadDTO> Create([FromBody] ProjectDTO projectDto)
     {
         if (!ModelState.IsValid)
         {
@@ -56,13 +55,13 @@ public class ProjectsController : Controller
         var projectReadDto = _mapper.Map<ProjectReadDTO>(createdProject);
 
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUri = baseUrl + $"/api/v1/projects/{project.Id}"; 
+        var locationUri = baseUrl + $"/api/v1/projects/{project.Id}";
 
         return Created(locationUri, projectReadDto);
     }
 
     [HttpPut("api/v1/projects/{id}")]
-    public ActionResult Put(string id, ProjectDTO projectDto)
+    public ActionResult Put(string id, [FromBody] ProjectDTO projectDto)
     {
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
@@ -70,7 +69,7 @@ public class ProjectsController : Controller
         var project = _projectService.SingleByIdOrDefault(objectId);
         if (project == null)
             return NotFound();
- 
+
         _mapper.Map(projectDto, project);
         _projectService.Update(project);
         var outputDto = _mapper.Map<ProjectReadDTO>(project);
@@ -81,8 +80,6 @@ public class ProjectsController : Controller
     [HttpDelete("api/v1/projects/{id}")]
     public ActionResult Delete(string id)
     {
-        throw new ValidationException("HAHAHA");
-
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
 

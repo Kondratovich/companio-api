@@ -2,7 +2,7 @@
 
 namespace Companio.Services.Interfaces;
 
-public interface ITokenService
+public interface IUserService : IServiceBase<User>
 {
-    string GenerateJWTToken(User user);
+    
 }

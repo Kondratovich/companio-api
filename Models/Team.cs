@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-
-namespace Companio.Models;
+﻿namespace Companio.Models;
 
 public class Team : DatabaseObject
 {

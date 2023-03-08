@@ -43,20 +43,20 @@ public class CustomersController : Controller
     }
 
     [HttpPost("api/v1/customers")]
-    public ActionResult<CustomerReadDTO> Create(CustomerDTO customerDto)
+    public ActionResult<CustomerReadDTO> Create([FromBody] CustomerDTO customerDto)
     {
         var customer = _mapper.Map<Customer>(customerDto);
         var createdCustomer = _customerService.Create(customer);
         var customerReadDto = _mapper.Map<CustomerReadDTO>(createdCustomer);
 
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUri = baseUrl + $"/api/v1/projects/{customer.Id}"; 
+        var locationUri = baseUrl + $"/api/v1/projects/{customer.Id}";
 
         return Created(locationUri, customerReadDto);
     }
 
     [HttpPut("api/v1/customers/{id}")]
-    public ActionResult Put(string id, CustomerDTO customerDto)
+    public ActionResult Put(string id, [FromBody] CustomerDTO customerDto)
     {
         if (!ObjectId.TryParse(id, out var objectId))
             return ValidationProblem();
@@ -64,7 +64,7 @@ public class CustomersController : Controller
         var customer = _customerService.SingleByIdOrDefault(objectId);
         if (customer == null)
             return NotFound();
- 
+
         _mapper.Map(customerDto, customer);
         _customerService.Update(customer);
         var outputDto = _mapper.Map<CustomerReadDTO>(customer);
