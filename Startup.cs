@@ -114,6 +114,7 @@ public class Startup
         services.AddScoped<ITeamService, TeamService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ITaskService, TaskService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

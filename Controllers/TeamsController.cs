@@ -9,7 +9,6 @@ using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
-[Authorize]
 public class TeamsController : Controller
 {
     private readonly IMapper _mapper;

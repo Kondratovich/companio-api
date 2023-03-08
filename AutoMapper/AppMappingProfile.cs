@@ -2,6 +2,7 @@
 using Companio.DTO;
 using Companio.Models;
 using MongoDB.Bson;
+using Task = Companio.Models.Task;
 
 namespace Companio.AutoMapper;
 
@@ -19,6 +20,7 @@ public class AppMappingProfile : Profile
         CreateMap<Team, TeamReadDTO>();
         CreateMap<Customer, CustomerReadDTO>();
         CreateMap<User, UserReadDTO>();
+        CreateMap<Task, TaskReadDTO>();
     }
 
     private void ConfigureFromDtoToDomain()
@@ -29,5 +31,6 @@ public class AppMappingProfile : Profile
         CreateMap<TeamDTO, Team>();
         CreateMap<CustomerDTO, Customer>();
         CreateMap<UserDTO, User>();
+        CreateMap<TaskDTO, Task>();
     }
 }
