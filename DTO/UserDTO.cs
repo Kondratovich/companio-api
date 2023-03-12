@@ -4,6 +4,7 @@ namespace Companio.DTO;
 
 public class UserDTO
 {
+    public string TeamId { get; set; }
     public string Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

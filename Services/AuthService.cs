@@ -23,14 +23,17 @@ public class AuthService : IAuthService
         return user;
     }
 
-    public User RegisterUser(string email, string password, Role role)
+    public User RegisterUser(UserDTO userDto)
     {
         var user = new User
         {
             Id = ObjectId.GenerateNewId(),
-            Email = email,
-            PasswordHash = password,
-            Role = role
+            Email = userDto.Email,
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName,
+            TeamId = ObjectId.Parse(userDto.TeamId),
+            PasswordHash = userDto.Password,
+            Role = userDto.Role
         };
 
         _context.Create(user);

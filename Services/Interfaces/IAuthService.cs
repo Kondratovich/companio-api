@@ -7,6 +7,6 @@ namespace Companio.Services.Interfaces;
 public interface IAuthService
 {
     User AuthenticateUser(UserDTO userDto);
-    User RegisterUser(string email, string password, Role role);
+    User RegisterUser(UserDTO userDto);
     bool IsEmailAvailable(string email);
 }

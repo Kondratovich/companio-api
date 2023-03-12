@@ -16,7 +16,7 @@ public class AuthController : Controller
         _tokenService = tokenService;
     }
 
-    [HttpPost("login")]
+    [HttpPost("api/v1/login")]
     public IActionResult Login([FromBody] UserDTO userDto)
     {
         IActionResult response = Unauthorized();
@@ -31,13 +31,12 @@ public class AuthController : Controller
         return response;
     }
 
-    [Authorize(Roles = "Administrator")]
-    [HttpPost("register")]
+    [HttpPost("api/v1/register")]
     public IActionResult Register([FromBody] UserDTO userDto)
     {
         if (_authService.IsEmailAvailable(userDto.Email))
         {
-            var user = _authService.RegisterUser(userDto.Email, userDto.Password, userDto.Role);
+            var user = _authService.RegisterUser(userDto);
             var tokenString = _tokenService.GenerateJWTToken(user);
             return Ok(new { token = tokenString });
         }

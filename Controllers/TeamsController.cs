@@ -1,9 +1,7 @@
 using AutoMapper;
 using Companio.DTO;
 using Companio.Models;
-using Companio.Services;
 using Companio.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
