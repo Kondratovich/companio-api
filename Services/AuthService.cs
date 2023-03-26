@@ -1,6 +1,5 @@
 ﻿using Companio.DTO;
 using Companio.Models;
-using Companio.Models.Enums;
 using Companio.Mongo;
 using Companio.Services.Interfaces;
 using MongoDB.Bson;

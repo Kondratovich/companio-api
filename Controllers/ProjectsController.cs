@@ -1,6 +1,8 @@
 using AutoMapper;
+using Companio.Attributes;
 using Companio.DTO;
 using Companio.Models;
+using Companio.Models.Enums;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -43,6 +45,7 @@ public class ProjectsController : Controller
     }
 
     [HttpPost("api/v1/projects")]
+    [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult<ProjectReadDTO> Create([FromBody] ProjectDTO projectDto)
     {
         if (!ModelState.IsValid)
@@ -61,6 +64,7 @@ public class ProjectsController : Controller
     }
 
     [HttpPut("api/v1/projects/{id}")]
+    [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Put(string id, [FromBody] ProjectDTO projectDto)
     {
         if (!ObjectId.TryParse(id, out var objectId))
@@ -78,6 +82,7 @@ public class ProjectsController : Controller
     }
 
     [HttpDelete("api/v1/projects/{id}")]
+    [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Delete(string id)
     {
         if (!ObjectId.TryParse(id, out var objectId))

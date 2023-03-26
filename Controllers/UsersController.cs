@@ -50,7 +50,7 @@ public class UsersController : Controller
         var userReadDto = _mapper.Map<UserReadDTO>(createdUser);
 
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUri = baseUrl + $"/api/v1/projects/{user.Id}";
+        var locationUri = baseUrl + $"/api/v1/users/{user.Id}";
 
         return Created(locationUri, userReadDto);
     }

@@ -50,7 +50,7 @@ public class CustomersController : Controller
         var customerReadDto = _mapper.Map<CustomerReadDTO>(createdCustomer);
 
         var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-        var locationUri = baseUrl + $"/api/v1/projects/{customer.Id}";
+        var locationUri = baseUrl + $"/api/v1/customers/{customer.Id}";
 
         return Created(locationUri, customerReadDto);
     }

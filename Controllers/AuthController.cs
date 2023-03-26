@@ -1,5 +1,6 @@
 ﻿using Companio.DTO;
 using Companio.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
