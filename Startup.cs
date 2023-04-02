@@ -115,6 +115,7 @@ public class Startup
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITaskService, TaskService>();
+        services.AddScoped<IAbsenceTimelineService, AbsenceTimelineService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

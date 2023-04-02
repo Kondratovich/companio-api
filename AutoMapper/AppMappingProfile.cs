@@ -21,6 +21,8 @@ public class AppMappingProfile : Profile
         CreateMap<Customer, CustomerReadDTO>();
         CreateMap<User, UserReadDTO>();
         CreateMap<Task, TaskReadDTO>();
+        CreateMap<AbsenceTimeline, AbsenceTimelineReadDTO>();
+        CreateMap<Absence, AbsenceDTO>();
     }
 
     private void ConfigureFromDtoToDomain()
@@ -32,5 +34,8 @@ public class AppMappingProfile : Profile
         CreateMap<CustomerDTO, Customer>();
         CreateMap<UserDTO, User>();
         CreateMap<TaskDTO, Task>();
+        CreateMap<AbsenceTimelineDTO, AbsenceTimeline>()
+            .ForMember(dest => dest.UserId, act => act.MapFrom(src => ObjectId.Parse(src.UserId)));
+        CreateMap<AbsenceDTO, Absence>();
     }
 }

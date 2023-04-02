@@ -18,13 +18,13 @@ public class ProjectService : ServiceBase<Project>, IProjectService
 
     public new Project Create(Project project)
     {
-        // var team = _teamService.SingleByIdOrDefault(project.TeamId);
-        // if (team == null)
-        //     throw new ValidationException($"Team with {project.TeamId} doesn't exist");
-        //
-        // var customer = _customerService.SingleByIdOrDefault(project.CustomerId);
-        // if (customer == null)
-        //     throw new ValidationException($"Customer with {project.CustomerId} doesn't exist");
+        var team = _teamService.SingleByIdOrDefault(project.TeamId);
+        if (team == null)
+            throw new ValidationException($"Team with {project.TeamId} doesn't exist");
+        
+        var customer = _customerService.SingleByIdOrDefault(project.CustomerId);
+        if (customer == null)
+            throw new ValidationException($"Customer with {project.CustomerId} doesn't exist");
 
         project.DateAdded = DateTime.UtcNow;
         return base.Create(project);

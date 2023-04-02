@@ -15,9 +15,14 @@ public class MongoContext
         _provider = client.GetDatabase(mongoSettings.Value.DatabaseName);
     }
 
-    public List<T> GetAll<T>()
+    public IFindFluent<T, T> GetAll<T>()
     {
-        return _provider.GetCollection<T>(typeof(T).Name).Find(s => true).ToList();
+        return _provider.GetCollection<T>(typeof(T).Name).Find(s => true);
+    }
+
+    public IFindFluent<T, T> Find<T>(FilterDefinition<T> filter)
+    {
+        return _provider.GetCollection<T>(typeof(T).Name).Find(filter);
     }
 
     /// <summary>

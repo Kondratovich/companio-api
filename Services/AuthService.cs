@@ -6,18 +6,15 @@ using MongoDB.Bson;
 
 namespace Companio.Services;
 
-public class AuthService : IAuthService
+public class AuthService : ServiceBase<User>, IAuthService
 {
-    private readonly MongoContext _context;
-
-    public AuthService(MongoContext context)
+    public AuthService(MongoContext mongoContext) : base(mongoContext)
     {
-        _context = context;
     }
 
     public User AuthenticateUser(UserDTO userDto)
     {
-        var user = _context.GetAll<User>().SingleOrDefault(u => u.Email == userDto.Email && u.PasswordHash == userDto.Password);
+        var user = GetAll().SingleOrDefault(u => u.Email == userDto.Email && u.PasswordHash == userDto.Password);
 
         return user;
     }
@@ -35,13 +32,13 @@ public class AuthService : IAuthService
             Role = userDto.Role
         };
 
-        _context.Create(user);
+        Create(user);
 
         return user;
     }
 
     public bool IsEmailAvailable(string email)
     {
-        return _context.GetAll<User>().All(u => u.Email != email);
+        return GetAll().All(u => u.Email != email);
     }
 }
