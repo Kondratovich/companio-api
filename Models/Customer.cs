@@ -9,4 +9,6 @@ public class Customer : DatabaseObject
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
+
+    public string Organization { get; set; }
 }
