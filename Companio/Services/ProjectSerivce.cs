@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Companio.Models;
-using Companio.Mongo;
+﻿using Companio.Models;
 using Companio.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Companio.Services;
 
@@ -10,7 +9,7 @@ public class ProjectService : ServiceBase<Project>, IProjectService
     private readonly ITeamService _teamService;
     private readonly ICustomerService _customerService;
 
-    public ProjectService(MongoContext mongoContext, ITeamService teamService, ICustomerService customerService) : base(mongoContext)
+    public ProjectService(ITeamService teamService, ICustomerService customerService) : base()
     {
         _teamService = teamService;
         _customerService = customerService;

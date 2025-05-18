@@ -2,7 +2,6 @@ using AutoMapper;
 using Companio.DTO;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using Task = Companio.Models.Task;
 
 namespace Companio.Controllers;
@@ -29,7 +28,7 @@ public class TasksController : Controller
     [HttpGet("api/v1/tasks/{id}")]
     public ActionResult<TaskReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var objectId))
             return ValidationProblem();
 
         var task = _taskService.SingleByIdOrDefault(objectId);
@@ -58,10 +57,10 @@ public class TasksController : Controller
     [HttpPut("api/v1/tasks/{id}")]
     public ActionResult Put(string id, [FromBody] TaskDTO taskDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var task = _taskService.SingleByIdOrDefault(objectId);
+        var task = _taskService.SingleByIdOrDefault(guidId);
         if (task == null)
             return NotFound();
 
@@ -75,14 +74,14 @@ public class TasksController : Controller
     [HttpDelete("api/v1/tasks/{id}")]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var task = _taskService.SingleByIdOrDefault(objectId);
+        var task = _taskService.SingleByIdOrDefault(guidId);
         if (task == null)
             return NotFound();
 
-        _taskService.Delete(objectId);
+        _taskService.Delete(guidId);
 
         return NoContent();
     }

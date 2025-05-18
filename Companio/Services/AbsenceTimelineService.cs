@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Companio.Models;
-using Companio.Mongo;
+﻿using Companio.Models;
 using Companio.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Companio.Services;
 
@@ -9,7 +8,7 @@ public class AbsenceTimelineService : ServiceBase<AbsenceTimeline>, IAbsenceTime
 {
     private readonly IUserService _userService;
 
-    public AbsenceTimelineService(MongoContext mongoContext, IUserService userService) : base(mongoContext)
+    public AbsenceTimelineService(IUserService userService) : base()
     {
         _userService = userService;
     }

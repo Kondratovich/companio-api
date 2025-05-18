@@ -3,7 +3,6 @@ using Companio.DTO;
 using Companio.Models;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
@@ -29,10 +28,10 @@ public class UsersController : Controller
     [HttpGet("api/v1/users/{id}")]
     public ActionResult<UserReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var user = _userService.SingleByIdOrDefault(objectId);
+        var user = _userService.SingleByIdOrDefault(guidId);
 
         if (user == null)
             return NotFound();
@@ -58,10 +57,10 @@ public class UsersController : Controller
     [HttpPut("api/v1/users/{id}")]
     public ActionResult Put(string id, [FromBody] UserDTO userDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var user = _userService.SingleByIdOrDefault(objectId);
+        var user = _userService.SingleByIdOrDefault(guidId);
         if (user == null)
             return NotFound();
 
@@ -75,14 +74,14 @@ public class UsersController : Controller
     [HttpDelete("api/v1/users/{id}")]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var user = _userService.SingleByIdOrDefault(objectId);
+        var user = _userService.SingleByIdOrDefault(guidId);
         if (user == null)
             return NotFound();
 
-        _userService.Delete(objectId);
+        _userService.Delete(guidId);
 
         return NoContent();
     }

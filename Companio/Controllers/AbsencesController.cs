@@ -3,7 +3,6 @@ using Companio.DTO;
 using Companio.Models;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
@@ -21,8 +20,8 @@ public class AbsencesController : Controller
     [HttpGet("api/v1/absences")]
     public ActionResult<List<AbsenceTimelineReadDTO>> GetAll(string userId)
     {
-        var absences = ObjectId.TryParse(userId, out var objectUserId)
-            ? _absenceTimelineService.Find(a => a.UserId == objectUserId)
+        var absences = Guid.TryParse(userId, out var guidUserId)
+            ? _absenceTimelineService.Find(a => a.UserId == guidUserId)
             : _absenceTimelineService.GetAll();
 
         var absenceReadDtos = absences.Select(_mapper.Map<AbsenceTimelineReadDTO>);
@@ -32,10 +31,10 @@ public class AbsencesController : Controller
     [HttpGet("api/v1/absences/{id}")]
     public ActionResult<AbsenceTimelineReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var absence = _absenceTimelineService.SingleByIdOrDefault(objectId);
+        var absence = _absenceTimelineService.SingleByIdOrDefault(guidId);
 
         if (absence == null)
             return NotFound();
@@ -61,7 +60,7 @@ public class AbsencesController : Controller
     [HttpPut("api/v1/absences/{id}")]
     public ActionResult Put(string id, [FromBody] AbsenceTimelineDTO absenceDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var objectId))
             return ValidationProblem();
 
         var absence = _absenceTimelineService.SingleByIdOrDefault(objectId);
@@ -78,14 +77,14 @@ public class AbsencesController : Controller
     [HttpDelete("api/v1/absences/{id}")]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var absence = _absenceTimelineService.SingleByIdOrDefault(objectId);
+        var absence = _absenceTimelineService.SingleByIdOrDefault(guidId);
         if (absence == null)
             return NotFound();
 
-        _absenceTimelineService.Delete(objectId);
+        _absenceTimelineService.Delete(guidId);
 
         return NoContent();
     }

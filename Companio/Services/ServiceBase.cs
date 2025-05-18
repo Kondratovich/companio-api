@@ -1,48 +1,41 @@
-﻿using System.Linq.Expressions;
-using Companio.Models;
-using Companio.Mongo;
+﻿using Companio.Models;
 using Companio.Services.Interfaces;
-using MongoDB.Bson;
-using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace Companio.Services;
 
 public class ServiceBase<T> : IServiceBase<T> where T : DatabaseObject
 {
-    private readonly MongoContext _mongoContext;
 
-    protected ServiceBase(MongoContext mongoContext)
+    protected ServiceBase()
     {
-        _mongoContext = mongoContext;
     }
 
     public List<T> GetAll()
     {
-        return _mongoContext.GetAll<T>().ToList();
+        return new List<T>();
     }
 
     public List<T> Find(Expression<Func<T, bool>> filter)
     {
-        return _mongoContext.Find(Builders<T>.Filter.Where(filter)).ToList();
+        return new List<T>();
     }
 
-    public T SingleByIdOrDefault(ObjectId id)
+    public T SingleByIdOrDefault(Guid id)
     {
-        return _mongoContext.SingleByIdOrDefault<T>(id);
+        return default(T);
     }
 
     public T Create(T item)
     {
-        return _mongoContext.Create(item);
+        return default(T);
     }
 
     public void Update(T item)
     {
-        _mongoContext.Update(item);
     }
 
-    public void Delete(ObjectId id)
+    public void Delete(Guid id)
     {
-        _mongoContext.Delete<T>(id);
     }
 }

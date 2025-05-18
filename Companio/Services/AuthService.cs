@@ -1,14 +1,12 @@
 ﻿using Companio.DTO;
 using Companio.Models;
-using Companio.Mongo;
 using Companio.Services.Interfaces;
-using MongoDB.Bson;
 
 namespace Companio.Services;
 
 public class AuthService : ServiceBase<User>, IAuthService
 {
-    public AuthService(MongoContext mongoContext) : base(mongoContext)
+    public AuthService() : base()
     {
     }
 
@@ -23,11 +21,11 @@ public class AuthService : ServiceBase<User>, IAuthService
     {
         var user = new User
         {
-            Id = ObjectId.GenerateNewId(),
+            Id = Guid.NewGuid(),
             Email = userDto.Email,
             FirstName = userDto.FirstName,
             LastName = userDto.LastName,
-            TeamId = ObjectId.Parse(userDto.TeamId),
+            TeamId = Guid.Parse(userDto.TeamId),
             PasswordHash = userDto.Password,
             Role = userDto.Role
         };

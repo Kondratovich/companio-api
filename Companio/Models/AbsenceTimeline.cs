@@ -1,11 +1,10 @@
 ﻿using Companio.Models.Enums;
-using MongoDB.Bson;
 
 namespace Companio.Models;
 
 public class AbsenceTimeline: DatabaseObject
 {
-    public ObjectId UserId { get; set; }
+    public Guid UserId { get; set; }
     public int TotalDays { get; set; }
     public int TakenDays { get; set; }
     public int PlannedDays { get; set; }

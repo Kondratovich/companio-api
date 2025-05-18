@@ -1,11 +1,9 @@
-﻿using MongoDB.Bson;
-
-namespace Companio.Models;
+﻿namespace Companio.Models;
 
 public class Project : DatabaseObject
 {
-    public ObjectId CustomerId { get; set; }
-    public ObjectId TeamId { get; set; }
+    public Guid CustomerId { get; set; }
+    public Guid TeamId { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public DateTime DateAdded { get; set; }

@@ -5,7 +5,6 @@ using Companio.Models;
 using Companio.Models.Enums;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
@@ -31,10 +30,10 @@ public class ProjectsController : Controller
     [HttpGet("api/v1/projects/{id}")]
     public ActionResult<ProjectReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var project = _projectService.SingleByIdOrDefault(objectId);
+        var project = _projectService.SingleByIdOrDefault(guidId);
 
         if (project == null)
             return NotFound();
@@ -67,10 +66,10 @@ public class ProjectsController : Controller
     [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Put(string id, [FromBody] ProjectDTO projectDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var project = _projectService.SingleByIdOrDefault(objectId);
+        var project = _projectService.SingleByIdOrDefault(guidId);
         if (project == null)
             return NotFound();
 
@@ -85,14 +84,14 @@ public class ProjectsController : Controller
     [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var project = _projectService.SingleByIdOrDefault(objectId);
+        var project = _projectService.SingleByIdOrDefault(guidId);
         if (project == null)
             return NotFound();
 
-        _projectService.Delete(objectId);
+        _projectService.Delete(guidId);
 
         return NoContent();
     }

@@ -1,6 +1,4 @@
 ﻿using Companio.Models.Enums;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Companio.Models;
 
@@ -16,8 +14,5 @@ public class User : DatabaseObject
 
     public Role Role { get; set; }
 
-    public ObjectId TeamId { get; set; }
-
-    [BsonIgnore]
-    public ObjectId ContractInfoId { get; set; }
+    public Guid TeamId { get; set; }
 }

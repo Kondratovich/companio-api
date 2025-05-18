@@ -1,13 +1,11 @@
-﻿using Companio.Validation;
-
-namespace Companio.DTO;
+﻿namespace Companio.DTO;
 
 public class ProjectDTO
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    [ObjectId] public string CustomerId { get; set; }
-    [ObjectId] public string TeamId { get; set; }
+    public string CustomerId { get; set; }
+    public string TeamId { get; set; }
     public decimal Price { get; set; }
     public DateTime Deadline { get; set; }
 }

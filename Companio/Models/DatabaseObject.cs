@@ -1,8 +1,6 @@
-﻿using MongoDB.Bson;
-
-namespace Companio.Models;
+﻿namespace Companio.Models;
 
 public class DatabaseObject
 {
-    public ObjectId Id { get; set; }
+    public Guid Id { get; set; }
 }

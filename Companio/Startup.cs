@@ -1,13 +1,12 @@
-﻿using System.Text;
-using Companio.AutoMapper;
+﻿using Companio.AutoMapper;
 using Companio.Models.Enums;
-using Companio.Mongo;
 using Companio.Security;
 using Companio.Services;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Companio;
 
@@ -23,9 +22,6 @@ public class Startup
     // Add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<MongoSettings>(Configuration.GetSection("MongoSettings"));
-        services.AddSingleton<MongoContext>();
-
         var jwtSettings = new JwtSettings();
         Configuration.Bind(nameof(jwtSettings),jwtSettings);
         services.AddSingleton(jwtSettings);
@@ -107,7 +103,6 @@ public class Startup
                 });
         });
 
-        services.AddSingleton<MongoContext>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IProjectService, ProjectService>();

@@ -3,7 +3,6 @@ using Companio.DTO;
 using Companio.Models;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
@@ -29,10 +28,10 @@ public class TeamsController : Controller
     [HttpGet("api/v1/teams/{id}")]
     public ActionResult<TeamReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var team = _teamService.SingleByIdOrDefault(objectId);
+        var team = _teamService.SingleByIdOrDefault(guidId);
 
         if (team == null)
             return NotFound();
@@ -58,10 +57,10 @@ public class TeamsController : Controller
     [HttpPut("api/v1/teams/{id}")]
     public ActionResult Put(string id, [FromBody] TeamDTO teamDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var team = _teamService.SingleByIdOrDefault(objectId);
+        var team = _teamService.SingleByIdOrDefault(guidId);
         if (team == null)
             return NotFound();
 
@@ -75,14 +74,14 @@ public class TeamsController : Controller
     [HttpDelete("api/v1/teams/{id}")]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var team = _teamService.SingleByIdOrDefault(objectId);
+        var team = _teamService.SingleByIdOrDefault(guidId);
         if (team == null)
             return NotFound();
 
-        _teamService.Delete(objectId);
+        _teamService.Delete(guidId);
 
         return NoContent();
     }

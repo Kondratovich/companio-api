@@ -3,7 +3,6 @@ using Companio.DTO;
 using Companio.Models;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace Companio.Controllers;
 
@@ -29,10 +28,10 @@ public class CustomersController : Controller
     [HttpGet("api/v1/customers/{id}")]
     public ActionResult<CustomerReadDTO> Get(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var customer = _customerService.SingleByIdOrDefault(objectId);
+        var customer = _customerService.SingleByIdOrDefault(guidId);
 
         if (customer == null)
             return NotFound();
@@ -58,10 +57,10 @@ public class CustomersController : Controller
     [HttpPut("api/v1/customers/{id}")]
     public ActionResult Put(string id, [FromBody] CustomerDTO customerDto)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var customer = _customerService.SingleByIdOrDefault(objectId);
+        var customer = _customerService.SingleByIdOrDefault(guidId);
         if (customer == null)
             return NotFound();
 
@@ -75,14 +74,14 @@ public class CustomersController : Controller
     [HttpDelete("api/v1/customers/{id}")]
     public ActionResult Delete(string id)
     {
-        if (!ObjectId.TryParse(id, out var objectId))
+        if (!Guid.TryParse(id, out var guidId))
             return ValidationProblem();
 
-        var customer = _customerService.SingleByIdOrDefault(objectId);
+        var customer = _customerService.SingleByIdOrDefault(guidId);
         if (customer == null)
             return NotFound();
 
-        _customerService.Delete(objectId);
+        _customerService.Delete(guidId);
 
         return NoContent();
     }

@@ -1,11 +1,10 @@
 ﻿using Companio.Models.Enums;
-using Companio.Validation;
 
 namespace Companio.DTO;
 
 public class AbsenceTimelineDTO
 {
-    [ObjectId] public string UserId { get; set; }
+    public string UserId { get; set; }
     public int TotalDays { get; set; }
     public int TakenDays { get; set; }
     public int PlannedDays { get; set; }

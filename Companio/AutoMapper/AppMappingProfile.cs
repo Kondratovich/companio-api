@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Companio.DTO;
 using Companio.Models;
-using MongoDB.Bson;
 using Task = Companio.Models.Task;
 
 namespace Companio.AutoMapper;
@@ -28,14 +27,14 @@ public class AppMappingProfile : Profile
     private void ConfigureFromDtoToDomain()
     {
         CreateMap<ProjectDTO, Project>()
-            .ForMember(dest => dest.CustomerId, act => act.MapFrom(src => ObjectId.Parse(src.CustomerId)))
-            .ForMember(dest => dest.TeamId, act => act.MapFrom(src => ObjectId.Parse(src.TeamId)));
+            .ForMember(dest => dest.CustomerId, act => act.MapFrom(src => Guid.Parse(src.CustomerId)))
+            .ForMember(dest => dest.TeamId, act => act.MapFrom(src => Guid.Parse(src.TeamId)));
         CreateMap<TeamDTO, Team>();
         CreateMap<CustomerDTO, Customer>();
         CreateMap<UserDTO, User>();
         CreateMap<TaskDTO, Task>();
         CreateMap<AbsenceTimelineDTO, AbsenceTimeline>()
-            .ForMember(dest => dest.UserId, act => act.MapFrom(src => ObjectId.Parse(src.UserId)));
+            .ForMember(dest => dest.UserId, act => act.MapFrom(src => Guid.Parse(src.UserId)));
         CreateMap<AbsenceDTO, Absence>();
     }
 }
