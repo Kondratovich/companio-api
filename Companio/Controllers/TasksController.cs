@@ -6,7 +6,9 @@ using Task = Companio.Models.Task;
 
 namespace Companio.Controllers;
 
-public class TasksController : Controller
+[ApiController]
+[Route("api/v1/tasks")]
+public class TasksController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ITaskService _taskService;
@@ -17,7 +19,7 @@ public class TasksController : Controller
         _taskService = taskService;
     }
 
-    [HttpGet("api/v1/tasks")]
+    [HttpGet]
     public ActionResult<List<TaskReadDTO>> GetAll()
     {
         var tasks = _taskService.GetAll();
@@ -25,7 +27,7 @@ public class TasksController : Controller
         return Ok(taskReadDtos);
     }
 
-    [HttpGet("api/v1/tasks/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<TaskReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var objectId))
@@ -41,7 +43,7 @@ public class TasksController : Controller
         return Ok(taskReadDto);
     }
 
-    [HttpPost("api/v1/tasks")]
+    [HttpPost]
     public ActionResult<TaskReadDTO> Create([FromBody] TaskDTO taskDto)
     {
         var task = _mapper.Map<Task>(taskDto);
@@ -54,7 +56,7 @@ public class TasksController : Controller
         return Created(locationUri, taskReadDto);
     }
 
-    [HttpPut("api/v1/tasks/{id}")]
+    [HttpPut("{id}")]
     public ActionResult Put(string id, [FromBody] TaskDTO taskDto)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -71,7 +73,7 @@ public class TasksController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/tasks/{id}")]
+    [HttpDelete("{id}")]
     public ActionResult Delete(string id)
     {
         if (!Guid.TryParse(id, out var guidId))

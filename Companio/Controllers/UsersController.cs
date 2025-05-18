@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class UsersController : Controller
+[ApiController]
+[Route("api/v1/users")]
+public class UsersController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
@@ -17,7 +19,7 @@ public class UsersController : Controller
         _userService = userService;
     }
 
-    [HttpGet("api/v1/users")]
+    [HttpGet]
     public ActionResult<List<UserReadDTO>> GetAll()
     {
         var users = _userService.GetAll();
@@ -25,7 +27,7 @@ public class UsersController : Controller
         return Ok(userReadDtos);
     }
 
-    [HttpGet("api/v1/users/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<UserReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -41,7 +43,7 @@ public class UsersController : Controller
         return Ok(userReadDto);
     }
 
-    [HttpPost("api/v1/users")]
+    [HttpPost]
     public ActionResult<UserReadDTO> Create([FromBody] UserDTO userDto)
     {
         var user = _mapper.Map<User>(userDto);
@@ -54,7 +56,7 @@ public class UsersController : Controller
         return Created(locationUri, userReadDto);
     }
 
-    [HttpPut("api/v1/users/{id}")]
+    [HttpPut("{id}")]
     public ActionResult Put(string id, [FromBody] UserDTO userDto)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -71,7 +73,7 @@ public class UsersController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/users/{id}")]
+    [HttpDelete("{id}")]
     public ActionResult Delete(string id)
     {
         if (!Guid.TryParse(id, out var guidId))

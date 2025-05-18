@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class CustomersController : Controller
+[ApiController]
+[Route("api/v1/customers")]
+public class CustomersController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ICustomerService _customerService;
@@ -17,7 +19,7 @@ public class CustomersController : Controller
         _customerService = customerService;
     }
 
-    [HttpGet("api/v1/customers")]
+    [HttpGet]
     public ActionResult<List<CustomerReadDTO>> GetAll()
     {
         var customers = _customerService.GetAll();
@@ -25,7 +27,7 @@ public class CustomersController : Controller
         return Ok(customerReadDtos);
     }
 
-    [HttpGet("api/v1/customers/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<CustomerReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -41,7 +43,7 @@ public class CustomersController : Controller
         return Ok(customerReadDto);
     }
 
-    [HttpPost("api/v1/customers")]
+    [HttpPost]
     public ActionResult<CustomerReadDTO> Create([FromBody] CustomerDTO customerDto)
     {
         var customer = _mapper.Map<Customer>(customerDto);
@@ -54,7 +56,7 @@ public class CustomersController : Controller
         return Created(locationUri, customerReadDto);
     }
 
-    [HttpPut("api/v1/customers/{id}")]
+    [HttpPut("{id}")]
     public ActionResult Put(string id, [FromBody] CustomerDTO customerDto)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -71,7 +73,7 @@ public class CustomersController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/customers/{id}")]
+    [HttpDelete("{id}")]
     public ActionResult Delete(string id)
     {
         if (!Guid.TryParse(id, out var guidId))

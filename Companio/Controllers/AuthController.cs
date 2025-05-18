@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class AuthController : Controller
+[ApiController]
+[Route("api/v1")]
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly ITokenService _tokenService;
@@ -15,7 +17,7 @@ public class AuthController : Controller
         _tokenService = tokenService;
     }
 
-    [HttpPost("api/v1/login")]
+    [HttpPost("login")]
     public IActionResult Login([FromBody] UserDTO userDto)
     {
         IActionResult response = Unauthorized();
@@ -30,7 +32,7 @@ public class AuthController : Controller
         return response;
     }
 
-    [HttpPost("api/v1/register")]
+    [HttpPost("register")]
     public IActionResult Register([FromBody] UserDTO userDto)
     {
         if (_authService.IsEmailAvailable(userDto.Email))

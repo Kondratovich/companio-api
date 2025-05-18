@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class AbsencesController : Controller
+[ApiController]
+[Route("api/v1/absences")]
+public class AbsencesController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IAbsenceTimelineService _absenceTimelineService;
@@ -17,7 +19,7 @@ public class AbsencesController : Controller
         _absenceTimelineService = absenceTimelineService;
     }
 
-    [HttpGet("api/v1/absences")]
+    [HttpGet]
     public ActionResult<List<AbsenceTimelineReadDTO>> GetAll(string userId)
     {
         var absences = Guid.TryParse(userId, out var guidUserId)
@@ -28,7 +30,7 @@ public class AbsencesController : Controller
         return Ok(absenceReadDtos);
     }
 
-    [HttpGet("api/v1/absences/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<AbsenceTimelineReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -44,7 +46,7 @@ public class AbsencesController : Controller
         return Ok(absenceReadDto);
     }
 
-    [HttpPost("api/v1/absences")]
+    [HttpPost]
     public ActionResult<AbsenceTimelineReadDTO> Create([FromBody] AbsenceTimelineDTO absenceDto)
     {
         var absence = _mapper.Map<AbsenceTimeline>(absenceDto);
@@ -57,7 +59,7 @@ public class AbsencesController : Controller
         return Created(locationUri, absenceReadDto);
     }
 
-    [HttpPut("api/v1/absences/{id}")]
+    [HttpPut("{id}")]
     public ActionResult Put(string id, [FromBody] AbsenceTimelineDTO absenceDto)
     {
         if (!Guid.TryParse(id, out var objectId))
@@ -74,7 +76,7 @@ public class AbsencesController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/absences/{id}")]
+    [HttpDelete("{id}")]
     public ActionResult Delete(string id)
     {
         if (!Guid.TryParse(id, out var guidId))

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class ProjectsController : Controller
+[ApiController]
+[Route("api/v1/projects")]
+public class ProjectsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IProjectService _projectService;
@@ -19,7 +21,7 @@ public class ProjectsController : Controller
         _projectService = projectService;
     }
 
-    [HttpGet("api/v1/projects")]
+    [HttpGet]
     public ActionResult<List<ProjectReadDTO>> GetAll()
     {
         var projects = _projectService.GetAll();
@@ -27,7 +29,7 @@ public class ProjectsController : Controller
         return Ok(projectReadDtos);
     }
 
-    [HttpGet("api/v1/projects/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<ProjectReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -43,7 +45,7 @@ public class ProjectsController : Controller
         return Ok(projectReadDto);
     }
 
-    [HttpPost("api/v1/projects")]
+    [HttpPost]
     [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult<ProjectReadDTO> Create([FromBody] ProjectDTO projectDto)
     {
@@ -62,7 +64,7 @@ public class ProjectsController : Controller
         return Created(locationUri, projectReadDto);
     }
 
-    [HttpPut("api/v1/projects/{id}")]
+    [HttpPut("{id}")]
     [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Put(string id, [FromBody] ProjectDTO projectDto)
     {
@@ -80,7 +82,7 @@ public class ProjectsController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/projects/{id}")]
+    [HttpDelete("{id}")]
     [RolePermission(Role.Administrator, Role.Manager)]
     public ActionResult Delete(string id)
     {

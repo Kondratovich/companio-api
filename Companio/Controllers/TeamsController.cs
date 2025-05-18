@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Companio.Controllers;
 
-public class TeamsController : Controller
+[ApiController]
+[Route("api/v1/teams")]
+public class TeamsController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ITeamService _teamService;
@@ -17,7 +19,7 @@ public class TeamsController : Controller
         _teamService = teamService;
     }
 
-    [HttpGet("api/v1/teams")]
+    [HttpGet]
     public ActionResult<List<TeamReadDTO>> GetAll()
     {
         var teams = _teamService.GetAll();
@@ -25,7 +27,7 @@ public class TeamsController : Controller
         return Ok(teamReadDtos);
     }
 
-    [HttpGet("api/v1/teams/{id}")]
+    [HttpGet("{id}")]
     public ActionResult<TeamReadDTO> Get(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -41,7 +43,7 @@ public class TeamsController : Controller
         return Ok(teamReadDto);
     }
 
-    [HttpPost("api/v1/teams")]
+    [HttpPost]
     public ActionResult<TeamReadDTO> Create([FromBody] TeamDTO teamDto)
     {
         var team = _mapper.Map<Team>(teamDto);
@@ -54,7 +56,7 @@ public class TeamsController : Controller
         return Created(locationUri, teamReadDto);
     }
 
-    [HttpPut("api/v1/teams/{id}")]
+    [HttpPut("{id}")]
     public ActionResult Put(string id, [FromBody] TeamDTO teamDto)
     {
         if (!Guid.TryParse(id, out var guidId))
@@ -71,7 +73,7 @@ public class TeamsController : Controller
         return Ok(outputDto);
     }
 
-    [HttpDelete("api/v1/teams/{id}")]
+    [HttpDelete("{id}")]
     public ActionResult Delete(string id)
     {
         if (!Guid.TryParse(id, out var guidId))
