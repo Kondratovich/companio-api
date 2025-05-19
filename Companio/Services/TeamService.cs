@@ -1,11 +1,12 @@
-﻿using Companio.Models;
+﻿using Companio.Data;
+using Companio.Models;
 using Companio.Services.Interfaces;
 
 namespace Companio.Services;
 
 public class TeamService : ServiceBase<Team>, ITeamService
 {
-    public TeamService() : base()
+    public TeamService(AppDbContext dbContext) : base(dbContext)
     {
     }
 }

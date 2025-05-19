@@ -1,9 +1,11 @@
 ﻿using Companio.AutoMapper;
+using Companio.Configs.Security;
+using Companio.Data;
 using Companio.Models.Enums;
-using Companio.Security;
 using Companio.Services;
 using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -16,8 +18,10 @@ public static class ServiceCollectionExtensions
         // Configuration
         var jwtSettings = new JwtSettings();
         configuration.Bind(nameof(jwtSettings), jwtSettings);
+        var connectionString = configuration.GetConnectionString("Postgre");
 
         // Register services
+        services.AddDbContext(connectionString);
         services.AddOpenApi();
         services.AddJwtAuthentication(jwtSettings);
         services.AddAuthorizationPolicies();
@@ -27,7 +31,15 @@ public static class ServiceCollectionExtensions
         services.AddApplicationServices();
     }
 
-    public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
+    private static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(connectionString));
+
+        return services;
+    }
+
+    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings)
     {
         services.AddSingleton(jwtSettings);
 
@@ -54,7 +66,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
+    private static IServiceCollection AddAuthorizationPolicies(this IServiceCollection services)
     {
         services.AddAuthorizationBuilder()
             .AddPolicy("Administrator", policy => policy.RequireRole(Role.Administrator.ToString()))
@@ -64,7 +76,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    private static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
@@ -78,7 +90,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCorsPolicy(this IServiceCollection services)
+    private static IServiceCollection AddCorsPolicy(this IServiceCollection services)
     {
         services.AddCors(options =>
         {

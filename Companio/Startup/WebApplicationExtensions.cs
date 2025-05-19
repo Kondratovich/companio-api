@@ -13,6 +13,7 @@ public static class WebApplicationExtensions
             app.MapScalarApiReference();
         }
 
+        app.MapControllers();
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors();

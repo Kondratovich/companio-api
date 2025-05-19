@@ -1,4 +1,5 @@
-﻿using Companio.Models;
+﻿using Companio.Data;
+using Companio.Models;
 using Companio.Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +10,7 @@ public class ProjectService : ServiceBase<Project>, IProjectService
     private readonly ITeamService _teamService;
     private readonly ICustomerService _customerService;
 
-    public ProjectService(ITeamService teamService, ICustomerService customerService) : base()
+    public ProjectService(ITeamService teamService, ICustomerService customerService, AppDbContext dbContext) : base(dbContext)
     {
         _teamService = teamService;
         _customerService = customerService;

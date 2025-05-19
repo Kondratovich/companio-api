@@ -1,4 +1,5 @@
-﻿using Companio.DTO;
+﻿using Companio.Data;
+using Companio.DTO;
 using Companio.Models;
 using Companio.Services.Interfaces;
 
@@ -6,7 +7,7 @@ namespace Companio.Services;
 
 public class AuthService : ServiceBase<User>, IAuthService
 {
-    public AuthService() : base()
+    public AuthService(AppDbContext dbContext) : base(dbContext)
     {
     }
 

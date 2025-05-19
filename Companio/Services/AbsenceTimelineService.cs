@@ -1,4 +1,5 @@
-﻿using Companio.Models;
+﻿using Companio.Data;
+using Companio.Models;
 using Companio.Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +9,7 @@ public class AbsenceTimelineService : ServiceBase<AbsenceTimeline>, IAbsenceTime
 {
     private readonly IUserService _userService;
 
-    public AbsenceTimelineService(IUserService userService) : base()
+    public AbsenceTimelineService(IUserService userService, AppDbContext dbContext) : base(dbContext)
     {
         _userService = userService;
     }
