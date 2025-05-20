@@ -7,6 +7,7 @@ using Companio.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 namespace Companio.Startup;
@@ -22,13 +23,42 @@ public static class ServiceCollectionExtensions
 
         // Register services
         services.AddDbContext(connectionString);
-        services.AddOpenApi();
         services.AddJwtAuthentication(jwtSettings);
         services.AddAuthorizationPolicies();
         services.AddAutoMapper(typeof(AppMappingProfile));
         services.AddControllers();
         services.AddCorsPolicy();
         services.AddApplicationServices();
+        services.AddOpenApi();
+    }
+
+    private static IServiceCollection AddOpenApi(this IServiceCollection services)
+    {
+        services.AddOpenApi(options =>
+             options.AddDocumentTransformer((document, _, _) =>
+             {
+                 var scheme = new OpenApiSecurityScheme()
+                 {
+                     BearerFormat = "JSON Web Token",
+                     Description = "Bearer authentication using a JWT.",
+                     Scheme = "bearer",
+                     Type = SecuritySchemeType.Http,
+                     Reference = new()
+                     {
+                         Id = "Bearer",
+                         Type = ReferenceType.SecurityScheme,
+                     },
+                 };
+
+                 document.Components ??= new();
+                 document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
+                 document.Components.SecuritySchemes[scheme.Reference.Id] = scheme;
+
+                 return Task.CompletedTask;
+             })
+        );
+
+        return services;
     }
 
     private static IServiceCollection AddDbContext(this IServiceCollection services, string connectionString)
