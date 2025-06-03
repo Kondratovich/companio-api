@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
     public static void ConfigureServices(this IServiceCollection services, ConfigurationManager configuration)
     {
         // Configuration
+        configuration.AddEnvironmentVariables();
         var jwtSettings = new JwtSettings();
         configuration.Bind(nameof(jwtSettings), jwtSettings);
         var connectionString = configuration.GetConnectionString("Postgre");

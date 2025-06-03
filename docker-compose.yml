@@ -1,0 +1,25 @@
+services:
+  companio:
+    image: ${DOCKER_REGISTRY-}companio
+    build:
+      context: .
+      dockerfile: Companio/Dockerfile
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: companio
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_companio:/var/lib/postgresql/data
+
+volumes:
+  postgres_companio:

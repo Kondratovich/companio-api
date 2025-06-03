@@ -1,4 +1,6 @@
-﻿using Scalar.AspNetCore;
+﻿using Companio.Data;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace Companio.Startup;
 
@@ -13,6 +15,12 @@ public static class WebApplicationExtensions
         app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.Migrate();
+        }
 
         if (app.Environment.IsDevelopment())
         {
